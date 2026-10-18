@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Secrets and local config
+.env
+.env.*
+!.env.example
+
+# Real customer data must never be committed
+samples/real/
+inbox/
+outbox/
+*.xlsx
+*.xls
+*.eml
+*.msg
+!samples/*.xlsx
+!tests/fixtures/*.xlsx
+!tests/fixtures/*.eml
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
