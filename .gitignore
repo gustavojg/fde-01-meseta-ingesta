@@ -1,17 +1,16 @@
-# Python
-__pycache__/
-*.py[cod]
-*.egg-info/
-.eggs/
-build/
+# Node
+node_modules/
 dist/
-.venv/
-.pytest_cache/
-.ruff_cache/
-.mypy_cache/
-.coverage
-coverage.xml
-htmlcov/
+coverage/
+*.tsbuildinfo
+.vitest/
+
+# Runtime data and local state
+data/
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
 
 # Secrets and local config
 .env
@@ -27,8 +26,8 @@ outbox/
 *.eml
 *.msg
 !samples/*.xlsx
-!tests/fixtures/*.xlsx
-!tests/fixtures/*.eml
+!test/fixtures/*.xlsx
+!test/fixtures/*.eml
 
 # OS / editors
 .DS_Store

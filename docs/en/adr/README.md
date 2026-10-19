@@ -6,7 +6,7 @@ Every ADR also exists in Spanish in [docs/es/adr](../../es/adr/README.md) with t
 | No. | Title | Status |
 | --- | --- | --- |
 | [0001](0001-record-decisions-with-adr.md) | Record architecture decisions with ADRs in MADR format | Accepted |
-| [0002](0002-python-stack.md) | Python 3.12+ with uv, pydantic and httpx as the assignment stack | Proposed |
+| [0002](0002-node-typescript-stack.md) | Node 22 with strict TypeScript as the assignment stack | Accepted |
 
 ## How to add an ADR
 

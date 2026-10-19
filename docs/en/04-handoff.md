@@ -19,8 +19,8 @@ review before Luis builds routes at 14:00.
 | Requirements with confirmed / assumed status and open questions | [02-requirements.md](02-requirements.md) |
 | As-is and to-be process with diagrams | [03-process.md](03-process.md) |
 | Architecture decisions | [adr/README.md](adr/README.md) |
-| Code | `src/meseta_ingesta/` (canonical model, settings, CLI and skeleton sources) |
-| Tests and CI | `tests/`, `.github/workflows/ci.yml` |
+| Code | `src/` (entry point only; canonical model, sources and ERP client come in the next steps) |
+| Tests and CI | `test/` (vitest; `acceptance/` and `fixtures/` empty), `.github/workflows/ci.yml` (check `test`: Biome, tsc, vitest) |
 
 Every document exists in Spanish and English and must be kept in sync.
 
@@ -45,9 +45,9 @@ From the interview with the head of operations (October 2026):
 ## 4. Decisions made
 
 - ADR-0001: decisions as ADRs in MADR format. Accepted.
-- ADR-0002: Python 3.12 stack with uv, pydantic, httpx. **Proposed, not
-  accepted.** The course's reference stack is Node 22 with strict TypeScript;
-  whether to migrate the skeleton must be decided before writing logic.
+- ADR-0002: Node 22 with strict TypeScript, pnpm, vitest and Biome. Accepted.
+  The initial Python skeleton was removed with no logic written. Node runs the
+  `.ts` files directly; `tsc` only checks types.
 - Precision over coverage: no auto-creation percentage target (RNF-10). The
   brief's "≥ 80 %" was withdrawn.
 - Deduplication is ours, not delegated to Logiwin (RF-06).
@@ -76,10 +76,10 @@ They go in `samples/`, which is empty today.
 
 ## 6. Recommended next step
 
-1. Decide the stack (close ADR-0002 or write ADR-0003 with the migration to
-   Node 22 + TypeScript) before implementing parsing.
+1. Protect `main` on GitHub: required pull request and green `test` check
+   before merging. Not done yet.
 2. Obtain real Excel and email samples and put them in `samples/` and
-   `tests/fixtures/`.
+   `test/fixtures/`.
 3. Implement in this order, each step with tests: canonical model and
    normalisation (RF-03), Excel parsing (RF-01), validation (RF-04),
    deduplication (RF-06), review queue and notification (RF-07), Logiwin

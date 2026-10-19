@@ -11,10 +11,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versioning: [S
 
 ### Changed
 
+- Stack switched to Node 22 + strict TypeScript (ADR-0002 accepted, replaces the Python
+  proposal): pnpm 12 pinned via `packageManager`, frozen lockfile, vitest, Biome, single
+  CI check `test` (lint, typecheck, tests).
 - Brief and requirements updated after the interview with the head of operations:
   Logiwin named, stakeholders corrected, success criteria rewritten around the Monday
   14:00 milestone and precision over coverage, every RF marked confirmed / assumed,
   weight and address validation added, retention tightened, open questions Q6-Q15.
+
+### Removed
+
+- Python skeleton (`pyproject.toml`, `uv.lock`, `src/meseta_ingesta/`, `tests/`, `Makefile`).
 
 ### Added (initial)
 

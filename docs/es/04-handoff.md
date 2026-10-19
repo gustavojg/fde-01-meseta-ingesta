@@ -19,8 +19,8 @@ Luis monte las rutas a las 14:00.
 | Requisitos con estado confirmado / supuesto y preguntas abiertas | [02-requisitos.md](02-requisitos.md) |
 | Proceso as-is y to-be con diagramas | [03-proceso.md](03-proceso.md) |
 | Decisiones de arquitectura | [adr/README.md](adr/README.md) |
-| Código | `src/meseta_ingesta/` (modelo canónico, configuración, CLI y fuentes en esqueleto) |
-| Tests y CI | `tests/`, `.github/workflows/ci.yml` |
+| Código | `src/` (solo el punto de entrada; modelo canónico, fuentes y cliente ERP llegan en los siguientes pasos) |
+| Tests y CI | `test/` (vitest; `acceptance/` y `fixtures/` vacíos), `.github/workflows/ci.yml` (check `test`: Biome, tsc, vitest) |
 
 Cada documento existe en español e inglés y deben mantenerse sincronizados.
 
@@ -43,9 +43,9 @@ Sale de la entrevista con la responsable de operaciones (octubre de 2026):
 ## 4. Decisiones tomadas
 
 - ADR-0001: decisiones como ADR en formato MADR. Aceptada.
-- ADR-0002: stack Python 3.12 con uv, pydantic, httpx. **Propuesta, no
-  aceptada.** El stack de referencia del curso es Node 22 con TypeScript
-  estricto; hay que decidir si se migra el esqueleto antes de escribir lógica.
+- ADR-0002: Node 22 con TypeScript estricto, pnpm, vitest y Biome. Aceptada.
+  El esqueleto inicial en Python se retiró sin lógica escrita. Node ejecuta
+  los `.ts` directamente; `tsc` solo comprueba tipos.
 - Precisión antes que cobertura: no hay objetivo de porcentaje de auto-alta
   (RNF-10). Se retiró el "≥ 80 %" del brief.
 - La deduplicación es nuestra, no se delega en Logiwin (RF-06).
@@ -74,10 +74,10 @@ reales. Van en `samples/`, que hoy está vacío.
 
 ## 6. Siguiente paso recomendado
 
-1. Decidir el stack (cerrar ADR-0002 o escribir ADR-0003 con la migración a
-   Node 22 + TypeScript) antes de implementar parseo.
+1. Proteger `main` en GitHub: PR obligatoria y check `test` en verde antes de
+   fusionar. No está hecho.
 2. Conseguir muestras reales de Excel y correo y meterlas en `samples/` y
-   `tests/fixtures/`.
+   `test/fixtures/`.
 3. Implementar en este orden, cada paso con tests: modelo canónico y
    normalización (RF-03), parseo Excel (RF-01), validación (RF-04),
    deduplicación (RF-06), cola de revisión y notificación (RF-07), cliente
