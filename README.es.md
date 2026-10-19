@@ -20,22 +20,24 @@ Lee el [brief](docs/es/01-brief.md) y los [requisitos](docs/es/02-requisitos.md)
 
 ## Estado
 
-Solo esqueleto. Existen el modelo de dominio, la configuración y la CLI; el
-origen Excel, el origen email y el cliente ERP son stubs que lanzan
-`NotImplementedError`.
+Solo esqueleto. El tooling y la CI están montados y `src/` tiene solo el punto
+de entrada. El modelo canónico, las fuentes y el cliente ERP llegan en los
+siguientes pasos.
 
 ## Stack
 
-Python 3.12+ · [uv](https://docs.astral.sh/uv/) · pydantic · openpyxl · httpx · typer · ruff · pytest.
-Justificación en la [ADR-0002](docs/es/adr/0002-stack-python.md).
+Node 22 (ejecuta `.ts` directamente, sin build) · TypeScript estricto · [pnpm](https://pnpm.io/) 12 · vitest · [Biome](https://biomejs.dev/).
+Justificación en la [ADR-0002](docs/es/adr/0002-stack-node-typescript.md).
 
 ## Arranque rápido
 
 ```bash
-uv sync --group dev
+nvm use                          # Node 22, desde .nvmrc
+corepack enable                  # pnpm 12, desde "packageManager" en package.json
+pnpm install --frozen-lockfile
 cp .env.example .env
-make check          # ruff + pytest
-uv run meseta-ingesta --help
+pnpm check                       # biome + tsc + vitest
+pnpm dev                         # ejecuta src/main.ts con --watch
 ```
 
 `DRY_RUN=true` es el valor por defecto: no se escribe nada en el ERP hasta que lo desactives.
@@ -44,21 +46,22 @@ uv run meseta-ingesta --help
 
 ```
 .
-├── .github/workflows/ci.yml   # lint + tests en push y PR
+├── .github/workflows/ci.yml   # check `test`: lint + typecheck + tests en push y PR
 ├── docs/
-│   ├── es/                    # Español: brief, requisitos, adr/
-│   └── en/                    # English: brief, requirements, adr/
-├── src/meseta_ingesta/
-│   ├── cli.py                 # punto de entrada `meseta-ingesta`
-│   ├── config.py              # configuración desde entorno / .env
-│   ├── domain/models.py       # modelo canónico Order
-│   ├── sources/               # excel.py, email.py
-│   └── erp/client.py          # único módulo que habla con el ERP
-├── tests/                     # pytest; fixtures/ para ficheros de ejemplo
+│   ├── es/                    # Español: brief, requisitos, proceso, handoff, adr/
+│   └── en/                    # English: brief, requirements, process, handoff, adr/
+├── src/
+│   ├── main.ts                # punto de entrada (`pnpm dev` / `pnpm start`)
+│   └── app.ts                 # identidad de la app y modo de ejecución, sin efectos
+├── test/
+│   ├── smoke.test.ts          # vitest
+│   ├── acceptance/            # `pnpm test:acceptance`
+│   └── fixtures/              # ficheros de ejemplo para tests
 ├── samples/                   # entradas de ejemplo anonimizadas (nunca datos reales)
 ├── .env.example
-├── Makefile
-└── pyproject.toml
+├── biome.json                 # lint + formato
+├── tsconfig.json              # strict, noEmit, erasableSyntaxOnly
+└── package.json               # pnpm 12 fijado en "packageManager"
 ```
 
 ## Convenciones
@@ -71,8 +74,8 @@ uv run meseta-ingesta --help
 - **Los identificadores de requisito** (`RF-xx`, `RNF-xx`) se citan en commits, PRs y ADRs.
 - **Los secretos** viven solo en `.env` (ignorado). `.env.example` documenta cada variable.
 - **Los datos reales de clientes nunca entran en el repositorio.** `*.xlsx` y
-  `*.eml` están ignorados salvo en `samples/` y `tests/fixtures/`.
-- **La CI en verde es obligatoria para fusionar.** Ejecuta `make check` antes de subir.
+  `*.eml` están ignorados salvo en `samples/` y `test/fixtures/`.
+- **La CI en verde es obligatoria para fusionar.** Ejecuta `pnpm check` antes de subir.
 
 ## Licencia
 

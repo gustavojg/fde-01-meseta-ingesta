@@ -20,21 +20,24 @@ Read the [brief](docs/en/01-brief.md) and the [requirements](docs/en/02-requirem
 
 ## Status
 
-Skeleton only. The domain model, settings and CLI exist; the Excel source,
-email source and ERP client are stubs that raise `NotImplementedError`.
+Skeleton only. Tooling and CI are in place and `src/` holds just the entry
+point. The canonical model, the sources and the ERP client come in the next
+steps.
 
 ## Stack
 
-Python 3.12+ · [uv](https://docs.astral.sh/uv/) · pydantic · openpyxl · httpx · typer · ruff · pytest.
-Rationale in [ADR-0002](docs/en/adr/0002-python-stack.md).
+Node 22 (runs `.ts` directly, no build) · strict TypeScript · [pnpm](https://pnpm.io/) 12 · vitest · [Biome](https://biomejs.dev/).
+Rationale in [ADR-0002](docs/en/adr/0002-node-typescript-stack.md).
 
 ## Quick start
 
 ```bash
-uv sync --group dev
+nvm use                          # Node 22, from .nvmrc
+corepack enable                  # pnpm 12, from package.json "packageManager"
+pnpm install --frozen-lockfile
 cp .env.example .env
-make check          # ruff + pytest
-uv run meseta-ingesta --help
+pnpm check                       # biome + tsc + vitest
+pnpm dev                         # runs src/main.ts with --watch
 ```
 
 `DRY_RUN=true` is the default: nothing is written to the ERP until you turn it off.
@@ -43,21 +46,22 @@ uv run meseta-ingesta --help
 
 ```
 .
-├── .github/workflows/ci.yml   # lint + tests on push and PR
+├── .github/workflows/ci.yml   # check `test`: lint + typecheck + tests on push and PR
 ├── docs/
-│   ├── es/                    # Spanish: brief, requisitos, adr/
-│   └── en/                    # English: brief, requirements, adr/
-├── src/meseta_ingesta/
-│   ├── cli.py                 # `meseta-ingesta` entry point
-│   ├── config.py              # settings from env / .env
-│   ├── domain/models.py       # canonical Order model
-│   ├── sources/               # excel.py, email.py
-│   └── erp/client.py          # the only module that talks to the ERP
-├── tests/                     # pytest; fixtures/ for sample files
+│   ├── es/                    # Spanish: brief, requisitos, proceso, handoff, adr/
+│   └── en/                    # English: brief, requirements, process, handoff, adr/
+├── src/
+│   ├── main.ts                # entry point (`pnpm dev` / `pnpm start`)
+│   └── app.ts                 # side-effect-free app identity and run mode
+├── test/
+│   ├── smoke.test.ts          # vitest
+│   ├── acceptance/            # `pnpm test:acceptance`
+│   └── fixtures/              # sample files for tests
 ├── samples/                   # anonymised example inputs (never real data)
 ├── .env.example
-├── Makefile
-└── pyproject.toml
+├── biome.json                 # lint + format
+├── tsconfig.json              # strict, noEmit, erasableSyntaxOnly
+└── package.json               # pnpm 12 pinned in "packageManager"
 ```
 
 ## Conventions
@@ -70,8 +74,8 @@ uv run meseta-ingesta --help
 - **Requirement ids** (`RF-xx`, `RNF-xx`) are cited in commits, PRs and ADRs.
 - **Secrets** live only in `.env` (ignored). `.env.example` documents every variable.
 - **Real customer data never enters the repository.** `*.xlsx` and `*.eml` are
-  ignored except under `samples/` and `tests/fixtures/`.
-- **Green CI is required to merge.** Run `make check` before pushing.
+  ignored except under `samples/` and `test/fixtures/`.
+- **Green CI is required to merge.** Run `pnpm check` before pushing.
 
 ## License
 

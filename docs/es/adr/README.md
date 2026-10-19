@@ -6,7 +6,7 @@ Cada ADR existe también en inglés en [docs/en/adr](../../en/adr/README.md) con
 | Nº | Título | Estado |
 | --- | --- | --- |
 | [0001](0001-registrar-decisiones-con-adr.md) | Registrar decisiones de arquitectura con ADR en formato MADR | Aceptada |
-| [0002](0002-stack-python.md) | Python 3.12+ con uv, pydantic y httpx como stack del encargo | Propuesta |
+| [0002](0002-stack-node-typescript.md) | Node 22 con TypeScript estricto como stack del encargo | Aceptada |
 
 ## Cómo añadir una ADR
 

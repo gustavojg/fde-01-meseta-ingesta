@@ -9,6 +9,6 @@
 ## Checklist
 
 - [ ] Tests added or updated
-- [ ] `make check` passes locally
+- [ ] `pnpm check` passes locally
 - [ ] Docs updated in **both** `docs/es` and `docs/en` when behaviour changes
 - [ ] New architectural decision recorded as an ADR (if any)
