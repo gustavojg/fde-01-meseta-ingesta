@@ -76,15 +76,13 @@ They go in `samples/`, which is empty today.
 
 ## 6. Recommended next step
 
-1. Protect `main` on GitHub: required pull request and green `test` check
-   before merging. Not done yet.
-2. Obtain real Excel and email samples and put them in `samples/` and
+1. Obtain real Excel and email samples and put them in `samples/` and
    `test/fixtures/`.
-3. Implement in this order, each step with tests: canonical model and
+2. Implement in this order, each step with tests: canonical model and
    normalisation (RF-03), Excel parsing (RF-01), validation (RF-04),
    deduplication (RF-06), review queue and notification (RF-07), Logiwin
    client in dry-run mode (RF-05), email (RF-02).
-4. First trial with the client: one Monday, in dry-run, against the real
+3. First trial with the client: one Monday, in dry-run, against the real
    Agroalimentaria file. Measure how long it takes and how many orders go to
    review.
 
@@ -101,6 +99,8 @@ They go in `samples/`, which is empty today.
 
 ## 8. Repository conventions
 
+- `main` is protected: changes land only through a PR with the `test`
+  check green. Applies to admins too.
 - Bilingual docs, same files in `docs/es` and `docs/en`.
 - ADRs in MADR format, numbered, with a version in both languages.
 - RF-xx, RNF-xx, AC-xx and Qx identifiers are stable: they are cited in

@@ -74,15 +74,13 @@ reales. Van en `samples/`, que hoy está vacío.
 
 ## 6. Siguiente paso recomendado
 
-1. Proteger `main` en GitHub: PR obligatoria y check `test` en verde antes de
-   fusionar. No está hecho.
-2. Conseguir muestras reales de Excel y correo y meterlas en `samples/` y
+1. Conseguir muestras reales de Excel y correo y meterlas en `samples/` y
    `test/fixtures/`.
-3. Implementar en este orden, cada paso con tests: modelo canónico y
+2. Implementar en este orden, cada paso con tests: modelo canónico y
    normalización (RF-03), parseo Excel (RF-01), validación (RF-04),
    deduplicación (RF-06), cola de revisión y notificación (RF-07), cliente
    Logiwin en modo dry-run (RF-05), correo (RF-02).
-4. Primera prueba con el cliente: un lunes, en dry-run, contra el Excel real de
+3. Primera prueba con el cliente: un lunes, en dry-run, contra el Excel real de
    Agroalimentaria. Medir cuánto tarda y cuántos pedidos van a revisión.
 
 ## 7. Cosas que no hay que hacer
@@ -98,6 +96,8 @@ reales. Van en `samples/`, que hoy está vacío.
 
 ## 8. Convenciones del repositorio
 
+- `main` está protegida: solo entra por PR y con el check `test` en verde.
+  Vale también para administradores.
 - Docs bilingües, mismos ficheros en `docs/es` y `docs/en`.
 - ADR en formato MADR, numeradas, con versión en ambos idiomas.
 - Los identificadores RF-xx, RNF-xx, CA-xx y Qx son estables: se citan en
